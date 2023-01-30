@@ -4,14 +4,9 @@ from sympy import matrix_symbols, simplify, factor, expand, apart, expand_trig
 from antlr4 import InputStream, CommonTokenStream
 from antlr4.error.ErrorListener import ErrorListener
 
-try:
-    from gen.PSParser import PSParser
-    from gen.PSLexer import PSLexer
-    from gen.PSListener import PSListener
-except Exception:
-    from .gen.PSParser import PSParser
-    from .gen.PSLexer import PSLexer
-    from .gen.PSListener import PSListener
+from gen.PSParser import PSParser
+from gen.PSLexer import PSLexer
+from gen.PSListener import PSListener
 
 from sympy.printing.str import StrPrinter
 
@@ -1160,7 +1155,7 @@ if __name__ == "__main__":
     # latex2latex(r'A_1=\begin{bmatrix}1 & 2 & 3 & 4 \\ 5 & 6 & 7 & 8\end{bmatrix}')
     # latex2latex(r'b_1=\begin{bmatrix}1 \\ 2 \\ 3 \\ 4\end{bmatrix}')
     # tex = r"(x+2)|_{x=y+1}"
-    tex = r"f{(x)}"
+    tex = r"\sin(x)"
     # print("latex2latex:", latex2latex(tex))
     math = latex2sympy(tex)
     math = math.subs(variances)
