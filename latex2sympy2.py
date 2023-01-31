@@ -745,7 +745,6 @@ def convert_atom(atom):
 
         # return the symbol
         return symbol
-
     elif atom.PERCENT_NUMBER():
         text = atom.PERCENT_NUMBER().getText().replace("\\%", "").replace(",", "")
         try:

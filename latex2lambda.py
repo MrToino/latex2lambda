@@ -2,6 +2,11 @@ from latex2sympy2 import latex2sympy
 from sympy import lambdify
 
 
+class TexWithoutArgumentsError(Exception):
+    def __init__(self, msg: str):
+        super().__init__(msg)
+
+
 def latex2lambda(
     tex: str,
     variable_values={},
@@ -11,7 +16,7 @@ def latex2lambda(
     use_imps=True,
     dummify=False,
 ):
-    if not args:
+    if args is None:
         try:
             """
             Trying to parse a function of type "f(...) = <...>" with the function itself on <...>
@@ -19,7 +24,9 @@ def latex2lambda(
             var_tex, tex = tex.replace(" ", "").split("=")
             args = var_tex.split("(")[1].replace(")", "").split(",")
         except Exception:
-            raise Exception("No valid arguments provided.")
+            raise TexWithoutArgumentsError(
+                "No arguments provided. Either pass the arguments as list or as r'f(<args>) = <...>'."
+            )
 
     sympy_form = latex2sympy(tex, variable_values)
     lambda_form = lambdify(
