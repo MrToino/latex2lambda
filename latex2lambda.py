@@ -23,9 +23,8 @@ def latex2lambda(
     dummify=False,
 ):
     if args is None:
-        """
-        Trying to parse a function of type "f(<args>) = <...>" with the function on <...>
-        """
+        # Trying to parse a function of type "f(<args>) = <...>" with the function on <...>
+        
         tex = tex.replace(" ", "").replace("\t", "").replace("\r", "").replace("\n", "")
 
         if len(tex.split("=")) != 2:
