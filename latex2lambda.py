@@ -1,8 +1,14 @@
 from latex2sympy2 import latex2sympy
 from sympy import lambdify
+import re
 
 
 class TexWithoutArgumentsError(Exception):
+    def __init__(self, msg: str):
+        super().__init__(msg)
+
+
+class TexMalformattedError(Exception):
     def __init__(self, msg: str):
         super().__init__(msg)
 
@@ -17,15 +23,29 @@ def latex2lambda(
     dummify=False,
 ):
     if args is None:
-        try:
-            """
-            Trying to parse a function of type "f(...) = <...>" with the function itself on <...>
-            """
-            var_tex, tex = tex.replace(" ", "").split("=")
-            args = var_tex.split("(")[1].replace(")", "").split(",")
-        except Exception:
+        """
+        Trying to parse a function of type "f(<args>) = <...>" with the function on <...>
+        """
+        tex = tex.replace(" ", "").replace("\t", "").replace("\r", "").replace("\n", "")
+
+        if len(tex.split("=")) != 2:
+            raise TexMalformattedError(
+                "Invalid tex format. Provide a tex string on format r'f(<args>) = <...>'."
+            )
+
+        fargs_tex, tex = tex.split("=")
+
+        args_tex = re.findall(r"(?<=\().+?(?=\))", fargs_tex)
+        if len(args_tex) != 1:
+            raise TexMalformattedError(
+                "Invalid tex format. Provide a tex string on format r'f(<args>) = <...>'."
+            )
+
+        args = args_tex[0].split(",")
+
+        if len(args) < 1:
             raise TexWithoutArgumentsError(
-                "No arguments provided. Either pass the arguments as list or as r'f(<args>) = <...>'."
+                "No arguments provided. Either pass the arguments as the args list or with the tex on format r'f(<args>) = <...>'."
             )
 
     sympy_form = latex2sympy(tex, variable_values)
