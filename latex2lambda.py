@@ -13,6 +13,32 @@ class TexMalformattedError(Exception):
         super().__init__(msg)
 
 
+def validate_input(tex: str) -> tuple[str, list]:
+    tex = tex.replace(" ", "").replace("\t", "").replace("\r", "").replace("\n", "")
+
+    if len(tex.split("=")) != 2:
+        raise TexMalformattedError(
+            "Invalid tex format. Provide a tex string on format r'f(<args>) = <...>'."
+        )
+
+    fargs_tex, tex = tex.split("=")
+
+    args_tex = re.findall(r"(?<=\().+?(?=\))", fargs_tex)
+    if len(args_tex) != 1:
+        raise TexMalformattedError(
+            "Invalid tex format. Provide the arguments between a single pair of parenthesis, that is on format '(<args>)'."
+        )
+
+    args = args_tex[0].split(",")
+
+    if len(args) < 1:
+        raise TexWithoutArgumentsError(
+            "No arguments provided. Either pass the arguments as the args list or with the tex on format r'f(<args>) = <...>'."
+        )
+
+    return tex, args
+
+
 def latex2lambda(
     tex: str,
     variable_values={},
@@ -23,29 +49,7 @@ def latex2lambda(
     dummify=False,
 ):
     if args is None:
-        # Trying to parse a function of type "f(<args>) = <...>" with the function on <...>
-        
-        tex = tex.replace(" ", "").replace("\t", "").replace("\r", "").replace("\n", "")
-
-        if len(tex.split("=")) != 2:
-            raise TexMalformattedError(
-                "Invalid tex format. Provide a tex string on format r'f(<args>) = <...>'."
-            )
-
-        fargs_tex, tex = tex.split("=")
-
-        args_tex = re.findall(r"(?<=\().+?(?=\))", fargs_tex)
-        if len(args_tex) != 1:
-            raise TexMalformattedError(
-                "Invalid tex format. Provide a tex string on format r'f(<args>) = <...>'."
-            )
-
-        args = args_tex[0].split(",")
-
-        if len(args) < 1:
-            raise TexWithoutArgumentsError(
-                "No arguments provided. Either pass the arguments as the args list or with the tex on format r'f(<args>) = <...>'."
-            )
+        tex, args = validate_input(tex)
 
     sympy_form = latex2sympy(tex, variable_values)
     lambda_form = lambdify(
