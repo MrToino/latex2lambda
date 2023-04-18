@@ -29,13 +29,13 @@ This project is a part of the [Lion Of Graphs](https://github.com/MrToino/lion-o
 
 ## Features
 
-* **Arithmetic:** Add (+), Sub (-), Dot Mul (·), Cross Mul (×), Frac (/), Power (^), Abs (|x|), Sqrt (√), etc...
-* **Alphabet:** a - z, A - Z, α - ω, Subscript (x_1), Accent Bar(ā), etc...
-* **Common Functions:** gcd, lcm, floor, ceil, max, min, log, ln, exp, sin, cos, tan, csc, sec, cot, arcsin, sinh, arsinh, etc...
-* **Funcion Symbol:** f(x), f(x-1,), g(x,y), etc...
-* **Calculous:** Limit ($lim_{n\to\infty}$), Derivation ($\frac{d}{dx}(x^2+x)$), Integration ($\int xdx$), etc...
-* **Linear Algebra:** Matrix, Determinant, Transpose, Inverse, Elementary Transformation, etc...
-* **Other:** Binomial...
+* **Arithmetic:** Add (+), Sub (-), Dot Mul ($\cdot$), Cross Mul ($\times$), Frac (/), Power (^), Abs (|x|), Sqrt ($\sqrt{}$), etc
+* **Alphabet:** a - z, A - Z, $\alpha$ - $\omega$, Subscript ($x_1$), Accent Bar ($\bar{a}$), etc
+* **Common Functions:** gcd, lcm, floor, ceil, max, min, log, ln, exp, sin, cos, tan, csc, sec, cot, arcsin, sinh, arsinh, etc
+* **Funcion Symbol:** $f(x)$, $f(x-1,)$, $g(x,y)$, etc
+* **Calculous:** Limit ($lim_{n\to\infty}$), Derivation ($\frac{d}{dx}$), Integration ($\int dx$), etc
+* **Linear Algebra:** Matrix, Determinant, Transpose, Inverse, Elementary Transformation, etc
+* **Other:** Binomial
 
 **NOTICE:** It will do some irreversible calculations when converting determinants, transposed matrixes and elementary transformations...
 
@@ -50,6 +50,14 @@ This project is a part of the [Lion Of Graphs](https://github.com/MrToino/lion-o
 ## Contributing
 
 If you want to add a new grammar, you can fork the code from [OrangeX4/latex2sympy](https://github.com/OrangeX4/latex2sympy).
+
+- To modify parser grammar, view the existing structure in `PS.g4`.
+- To modify the action associated with each grammar, look into `latex2sympy.py`
+
+To add new features to this project, you can fork the code from [MrToino/latex2lambda](https://github.com/MrToino/latex2lambda).
+
+Contributors are welcome! Feel free to open a pull request or an issue.
+
 
 🚧 *under construction* 🚧
 
